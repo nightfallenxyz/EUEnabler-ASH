@@ -1,5 +1,6 @@
 from helper.helper_paths.file_restore_path import files_to_restore_empty, files_to_restore_patches
-from helper.helper_func.functions import prompt_for_action, restore, traceback
+from helper.helper_func.functions import prompt_for_action, restore, traceback	
+import time
 from time import sleep
 
 # Get the region code from the user
