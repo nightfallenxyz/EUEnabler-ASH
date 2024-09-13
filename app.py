@@ -21,12 +21,12 @@ try:
         input("Press Enter after rebooting and unlocking...")
     elif choice == '4':
         input("Make sure your phone has no passcode enabled and hit enter")
-        while true do:
+        while true:
             restore(files_to_restore_empty)
             time.sleep(30)
     elif choice == '5':
         input("Make sure your phone has no passcode enabled and hit enter")
-        while true do:
+        while true:
             restore(files_to_restore_empty)
             time.sleep(30)
             restore(files_to_restore_patches)
