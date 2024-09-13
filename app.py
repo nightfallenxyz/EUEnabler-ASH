@@ -11,7 +11,6 @@ import traceback
 import plistlib
 import traceback
 from time import sleep
-import time
 
 # Function to replace the region code in a plist file
 def replace_region_code(plist_path, original_code="US", new_code="US"):
@@ -28,7 +27,7 @@ def replace_region_code(plist_path, original_code="US", new_code="US"):
 def restore(files, max_retries=3):
     for attempt in range(max_retries):
         try:
-            restore_files(files=files)
+            restore_files(files=files, reboot=True)
             break  # Exit loop on success
         except ConnectionAbortedError:
             print(f"Connection aborted, retrying... ({attempt + 1}/{max_retries})")
@@ -43,8 +42,7 @@ def prompt_for_action():
     print("1. Restore files with no data")
     print("2. Apply eligibility and config patches")
     print("3. Restore files with no data and apply patches")
-    print("4. Automated spam theory!")
-    choice = input("Enter your choice (1, 2, 3, or 4): ").strip()
+    choice = input("Enter your choice (1, 2, or 3): ").strip()
     return choice
 
 # Get the region code from the user
@@ -121,12 +119,8 @@ try:
         input("Press Enter after rebooting and unlocking...")
         restore(files_to_restore_patches)  # Then restore with patches
         input("Press Enter after rebooting and unlocking...")
-    elif choice == '4':
-        while True:
-            restore(files_to_restore_patches)
-            time.sleep(30)
     else:
-        print("Invalid choice. Please select 1, 2,3, or 4")
+        print("Invalid choice. Please select 1, 2, or 3.")
 except Exception as e:
     print(traceback.format_exc())
 finally:
