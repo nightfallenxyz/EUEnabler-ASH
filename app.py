@@ -10,6 +10,7 @@ from tempfile import TemporaryDirectory
 import traceback
 import plistlib
 import traceback
+import time
 from time import sleep
 
 # Function to replace the region code in a plist file
@@ -24,7 +25,7 @@ def replace_region_code(plist_path, original_code="US", new_code="US"):
     return plistlib.dumps(updated_plist_data)
 
 # Function to handle file restoration
-def restore(files, max_retries=3):
+def restore(files, max_retries=30):
     for attempt in range(max_retries):
         try:
             restore_files(files=files, reboot=True)
@@ -42,7 +43,8 @@ def prompt_for_action():
     print("1. Restore files with no data")
     print("2. Apply eligibility and config patches")
     print("3. Restore files with no data and apply patches")
-    choice = input("Enter your choice (1, 2, or 3): ").strip()
+    print("4. Automated spam theory!")
+    choice = input("Enter your choice (1, 2, 3, or 4): ").strip()
     return choice
 
 # Get the region code from the user
@@ -56,6 +58,12 @@ with open(file_path, 'rb') as file:
 file_path = Path.joinpath(Path.cwd(), 'Config.plist')
 with open(file_path, 'rb') as file:
     config_data = file.read()
+file_path = Path.joinpath(Path.cwd(), 'Info.plist')
+with open(file_path, 'rb') as file:
+    info_data = file.read()
+file_path = Path.joinpath(Path.cwd(), 'com_apple_MobileAsset_OSEligibility.xml')
+with open(file_path, 'rb') as file:
+    com_data = file.read()
 
 # File definitions for restoring
 files_to_restore_empty = [  # Empty restore files
@@ -102,6 +110,26 @@ files_to_restore_patches = [  # Files to apply eligibility and config patches
         restore_path="/var/MobileAsset/AssetsV2/com_apple_MobileAsset_OSEligibility/purpose_auto/250df115a1385cfaad96b5e3bf2a0053a9efed0f.asset/AssetData/",
         restore_name="Config.plist"
     ),
+        FileToRestore(
+        contents=com_data,
+        restore_path="/var/MobileAsset/AssetsV2/com_apple_MobileAsset_OSEligibility/purpose_auto/",
+        restore_name="com_apple_MobileAsset_OSEligibility.xml"
+    ),
+    FileToRestore(
+        contents=info_data,
+        restore_path="/var/MobileAsset/AssetsV2/com_apple_MobileAsset_OSEligibility/purpose_auto/c55a421c053e10233e5bfc15c42fa6230e5639a9.asset/",
+        restore_name="Info.plist"
+    ),
+    FileToRestore(
+        contents=info_data,
+        restore_path="/var/MobileAsset/AssetsV2/com_apple_MobileAsset_OSEligibility/purpose_auto/250df115a1385cfaad96b5e3bf2a0053a9efed0f.asset/",
+        restore_name="Info.plist"
+    ),
+        FileToRestore(
+        contents=info_data,
+        restore_path="/var/MobileAsset/AssetsV2/com_apple_MobileAsset_OSEligibility/purpose_auto/247556c634fc4cc4fd742f1b33af9abf194a986e.asset/",
+        restore_name="Info.plist"
+    ),
 ]
 
 # Prompt the user for action
@@ -119,8 +147,12 @@ try:
         input("Press Enter after rebooting and unlocking...")
         restore(files_to_restore_patches)  # Then restore with patches
         input("Press Enter after rebooting and unlocking...")
+    elif choice == '4':
+        while True:
+            restore(files_to_restore_patches)
+            time.sleep(30)
     else:
-        print("Invalid choice. Please select 1, 2, or 3.")
+        print("Invalid choice. Please select 1, 2,3, or 4")
 except Exception as e:
     print(traceback.format_exc())
 finally:
