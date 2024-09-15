@@ -1,11 +1,11 @@
 # EU Enabler (ashs version)
-
+# SUPPORT DISCORD [The best discord server ever made](https://discord.gg/mB3pWM8t)
 
 ## How to use
 1. ensure and install [python 3.12](https://www.python.org/downloads/release/python-3125/) and [git](https://git-scm.com/downloads) if you do not have it, and ensure they are both in path
 2. open a terminal, please use cmd if on windows
 3. run `git clone https://github.com/nightfallenxyz/EUEnabler-ASH -b theorybranch`
-4. run `cd EUEnabler-ash-theorybranch`
+4. run `cd EUEnabler-ash`
 5. run `python -m pip install pymobiledevice3` if it is not installed
 6. plug your iphone/ipad into your pc/mac, and disable find my phone if its enabled (you can turn it back on when its done, its just for the restore)
 7. run `python app.py`
