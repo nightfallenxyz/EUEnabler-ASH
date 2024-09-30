@@ -37,6 +37,7 @@ def restore(files, max_retries=3):
 
 # Function to prompt the user for an action
 def prompt_for_action():
+    print("Only works on ios 17.4.xx ios 18 will be added when a new exploit comes out")
     print("Select an option:")
     print("1. Restore files with no data")
     print("2. Apply eligibility and config patches")
